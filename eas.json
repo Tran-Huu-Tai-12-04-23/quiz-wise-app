@@ -1,0 +1,41 @@
+{
+  "build": {
+    "development": {
+      "channel": "development",
+      "ios": {
+        "cocoapods": "1.14.3",
+        "scheme": "QuizWiseDev"
+      },
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_APP_VARIANT": "development",
+        "EXPO_PUBLIC_APP_NAME": "Quiz Wise Dev",
+        "EXPO_PUBLIC_BUNDLE_ID": "com.genny.quizwise.dev",
+        "EXPO_PUBLIC_API": "https://life-manager-api.genny.id.vn/"
+      }
+    },
+    "production": {
+      "channel": "production",
+      "ios": {
+        "cocoapods": "1.14.3",
+        "scheme": "APP"
+      },
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_APP_VARIANT": "production",
+        "EXPO_PUBLIC_APP_NAME": "Quiz Wise",
+        "EXPO_PUBLIC_BUNDLE_ID": "com.genny.quizwise.pro",
+        "EXPO_PUBLIC_API": "https://life-manager-api.genny.id.vn/"
+      }
+    }
+  },
+
+  "cli": {
+    "version": ">= 0.53.1",
+    "promptToConfigurePushNotifications": false
+  }
+}
