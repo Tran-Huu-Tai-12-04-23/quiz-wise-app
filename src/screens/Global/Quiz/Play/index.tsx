@@ -152,7 +152,7 @@ function PlayQuizScreen() {
           <Animated.View
             style={[{ width: "100%", padding: normalize(10) }, animatedStyle]}
           >
-            <Row direction="column" start rowGap={5}>
+            <Row direction="column" start rowGap={5}> 
               <TextDefault bold style={{ fontSize: normalize(16) }}>
                 Choose the correct answer
               </TextDefault>
