@@ -13,6 +13,7 @@ export const styleGlobal = StyleSheet.create({
   borderBottom: {
     borderBottomWidth: 1,
     borderStyle: "solid",
+    borderColor: "rgba(0,0,0,0.1)",
   },
   border: { borderWidth: 1, borderStyle: "solid" },
   borderTop: {

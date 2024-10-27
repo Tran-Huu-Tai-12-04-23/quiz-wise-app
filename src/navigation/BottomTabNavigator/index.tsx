@@ -6,6 +6,7 @@ import HomeScreen from "src/screens/BottomTab/Home";
 import ProfileScreen from "src/screens/BottomTab/Profile";
 import { BOTTOM_TAB_ROUTE } from "../route";
 import CustomBottomBar from "./CustomBottomBar";
+import LibNav from "./LibNav";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -26,8 +27,8 @@ const BottomTabNavigator = () => {
     >
       <Screen name={BOTTOM_TAB_ROUTE.HOME} component={HomeScreen} />
       <Screen name={BOTTOM_TAB_ROUTE.SEARCH} component={HomeScreen} />
-      <Screen name={BOTTOM_TAB_ROUTE.LIBRARY} component={HomeScreen} />
-      <Screen name={"test"} component={HomeScreen} />
+      <Screen name={"CREATE"} component={HomeScreen} />
+      <Screen name={BOTTOM_TAB_ROUTE.LIBRARY_STACK} component={LibNav} />
       <Screen name={BOTTOM_TAB_ROUTE.PERSONAL} component={ProfileScreen} />
     </Navigator>
   );

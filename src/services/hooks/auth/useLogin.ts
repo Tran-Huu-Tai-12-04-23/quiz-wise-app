@@ -1,7 +1,7 @@
 import { useAuth } from "@context/authContext";
+import { useToast } from "@context/toastContext";
 import Helper from "@helper/helpers";
 import { useMutation } from "@tanstack/react-query";
-import Toast from "react-native-toast-message";
 import { IUser } from "src/dto";
 import { endpoints } from "src/services/endpoints";
 import { authApi } from "src/services/rootApi";
@@ -21,6 +21,7 @@ type LoginResponse = {
 
 const useLogin = () => {
   const { login } = useAuth();
+  const { showToast } = useToast();
   const { isPending, isError, data, error, mutateAsync } = useMutation({
     mutationFn: (variables: LoginParams) => {
       return authApi.post<LoginParams, LoginResponse>(
@@ -29,10 +30,7 @@ const useLogin = () => {
       );
     },
     onError: (e: any) => {
-      Toast.show({
-        type: "error",
-        text2: e?.response?.data?.message || "Đã có lỗi xảy ra",
-      });
+      showToast(e?.response?.data?.message || "Đã có lỗi xảy ra", "ERROR");
     },
     onSuccess: async (data) => {
       await Helper.saveToken(data.data.accessToken);

@@ -14,6 +14,7 @@ interface Props extends RNTextProps {
   center?: boolean;
   numberOfLine?: number;
   size?: number;
+  color?: string;
 }
 
 const TextDefault: FC<Props> = ({
@@ -21,6 +22,7 @@ const TextDefault: FC<Props> = ({
   style,
   bold,
   size = normalize(12),
+  color,
   ...rest
 }) => {
   const { theme } = useTheme();
@@ -34,7 +36,7 @@ const TextDefault: FC<Props> = ({
         {
           fontFamily: "Roboto",
           fontSize: size,
-          color: theme.text,
+          color: color || theme.text,
         },
         style,
       ]}

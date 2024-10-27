@@ -17,6 +17,7 @@ interface ButtonPrimaryProps {
   full?: boolean;
   borderColor?: string;
   textColor?: string;
+  backgroundColor?: string;
 }
 interface IconButtonProps extends ButtonPrimaryProps {
   icon: React.ReactNode;
@@ -32,6 +33,7 @@ const ButtonPrimary = ({
   iconRight,
   minWidth = 100,
   disabled = false,
+  backgroundColor,
 }: ButtonPrimaryProps) => {
   const { theme } = useTheme();
 
@@ -42,7 +44,7 @@ const ButtonPrimary = ({
       style={[
         style.btn,
         {
-          backgroundColor: theme.primary,
+          backgroundColor: backgroundColor || theme.primary,
           minWidth: minWidth,
           borderRadius: round,
         },
@@ -75,11 +77,13 @@ const ButtonOutlined = ({
   minWidth = 100,
   disabled = false,
   borderColor = "",
+  ...props
 }: ButtonPrimaryProps) => {
   const { theme } = useTheme();
 
   return (
     <TouchableOpacity
+      {...props}
       onPress={isLoading ? () => {} : onPress}
       disabled={disabled || isLoading}
       style={[

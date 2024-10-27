@@ -10,10 +10,12 @@ const AnswerItem = forwardRef(
   (
     {
       data,
-      onCheckCorrect,
+      onPress,
+      active,
     }: {
       data: string;
-      onCheckCorrect: () => boolean;
+      onPress: () => void;
+      active: boolean;
     },
     ref
   ) => {
@@ -22,15 +24,6 @@ const AnswerItem = forwardRef(
       isCorrect: null,
       borderColor: "transparent",
     });
-
-    const handleSelectAnswer = () => {
-      const isCorrect = onCheckCorrect();
-
-      setDataAnswer({
-        isCorrect: isCorrect,
-        borderColor: isCorrect ? theme.success : theme.danger,
-      });
-    };
 
     const resetAnswer = () => {
       setDataAnswer({
@@ -44,7 +37,7 @@ const AnswerItem = forwardRef(
     }));
 
     return (
-      <TouchableOpacity style={{ width: "100%" }} onPress={handleSelectAnswer}>
+      <TouchableOpacity style={{ width: "99%" }} onPress={onPress}>
         <Row
           between
           full
@@ -52,13 +45,17 @@ const AnswerItem = forwardRef(
           style={[
             styles.container,
             {
-              backgroundColor: theme.background,
-              borderWidth: 1,
-              borderColor: dataAnswer.borderColor,
+              backgroundColor: active ? theme.primary : theme.background,
             },
           ]}
         >
-          <TextDefault center style={{ fontSize: normalize(18) }}>
+          <TextDefault
+            center
+            style={{
+              fontSize: normalize(14),
+              color: active ? theme.background : theme.text,
+            }}
+          >
             {data}
           </TextDefault>
         </Row>
@@ -69,7 +66,7 @@ const AnswerItem = forwardRef(
 
 const styles = StyleSheet.create({
   container: {
-    padding: normalize(10),
+    padding: normalize(8),
     borderRadius: normalize(5),
     justifyContent: "center",
     alignItems: "center",

@@ -11,6 +11,7 @@ import Row from "@components/Row";
 import Separator from "@components/Separator";
 import TextDefault from "@components/TextDefault";
 import { useTheme } from "@context/themContext";
+import { useToast } from "@context/toastContext";
 import Helper, { EKeyCheck, normalize } from "@helper/helpers";
 import { deviceHeight } from "@helper/utils";
 import MainLayout from "@layout/MainLayout";
@@ -23,7 +24,6 @@ import GoogleIcon from "assets/svg/google-icon";
 import LockIcon from "assets/svg/lock-icon";
 import React, { useState } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import Toast from "react-native-toast-message";
 import useLogin from "src/services/hooks/auth/useLogin";
 
 interface LoginBody {
@@ -31,6 +31,7 @@ interface LoginBody {
   password: string;
 }
 export default function LoginScreen() {
+  const { showToast } = useToast();
   const { theme } = useTheme();
   const [isRemember, setIsRemember] = useState(false);
   const [userInput, setUserInput] = useState<LoginBody>({
@@ -41,10 +42,7 @@ export default function LoginScreen() {
   const handleSubmit = async (body: LoginBody) => {
     await onLogin(body).then(async (res) => {
       if (!res) return;
-      Toast.show({
-        type: "success",
-        text1: "Login successfully!",
-      });
+      showToast("Login successfully!", "SUCCESS");
       if (isRemember) {
         await Helper.saveUserLoginData(userInput);
       }
@@ -54,11 +52,8 @@ export default function LoginScreen() {
     const missingField = Helper.verifyField(userInput, [EKeyCheck.STRING]);
 
     if (missingField.length > 0) {
-      return Toast.show({
-        type: "error",
-        text1: "Filed required!",
-        text2: missingField.join(", "),
-      });
+      showToast("Filed required!", "ERROR", missingField.join(", "));
+      return;
     }
     await handleSubmit(userInput);
   };

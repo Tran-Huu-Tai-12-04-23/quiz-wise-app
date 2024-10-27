@@ -5,6 +5,7 @@ import Row from "@components/Row";
 import Separator from "@components/Separator";
 import TextDefault from "@components/TextDefault";
 import { useTheme } from "@context/themContext";
+import { useToast } from "@context/toastContext";
 import Helper, { EKeyCheck, normalize } from "@helper/helpers";
 import MainLayout from "@layout/MainLayout";
 import { navigate } from "@navigation/NavigationService";
@@ -14,7 +15,6 @@ import LockIcon from "assets/svg/lock-icon";
 import PersonalIcon from "assets/svg/personal-icon";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
-import Toast from "react-native-toast-message";
 
 interface RegisterBody {
   username: string;
@@ -23,6 +23,7 @@ interface RegisterBody {
   confirmPassword: string;
 }
 export default function RegisterScreen() {
+  const { showToast } = useToast();
   const { theme } = useTheme();
   const [isRemember, setIsRemember] = useState(false);
   const [userInput, setUserInput] = useState<RegisterBody>({
@@ -36,11 +37,7 @@ export default function RegisterScreen() {
     const missingField = Helper.verifyField(userInput, [EKeyCheck.STRING]);
 
     if (missingField.length > 0) {
-      return Toast.show({
-        type: "error",
-        text1: "Filed required!",
-        text2: missingField.join(", "),
-      });
+      return showToast("Filed required!", "ERROR", missingField.join(", "));
     }
     await handleSubmit(userInput);
   };

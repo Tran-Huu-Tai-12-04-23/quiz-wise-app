@@ -6,7 +6,7 @@ const themeData = {
     backgroundSecond: "rgba(0,0,0,0.051)",
     tabIconDefault: "#9BBDF8",
     tabIconSelected: "#699CF4",
-    primary: "#699CF4",
+    primary: "#4986E7",
     danger: "#F86F6F",
     warning: "#FE8A1F",
     success: "#1BB937",
@@ -14,6 +14,7 @@ const themeData = {
     icon: "#9CA3AF",
     border: "#EEEFF2",
     contrastText: "white",
+    error: "#F86F6F",
   },
   dark: {
     text: "#FFFFFF",
@@ -30,6 +31,7 @@ const themeData = {
     icon: "#9CA3AF",
     border: "#2C313F",
     contrastText: "white",
+    error: "#F86F6F",
   },
 };
 

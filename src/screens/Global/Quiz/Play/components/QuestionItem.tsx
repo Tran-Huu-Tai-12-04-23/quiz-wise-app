@@ -50,7 +50,6 @@ const QuestionItem = ({
       // e.translationX is positive if the swipe is to the right
       // isSwipeRight is true if the swipe is to the right
       const isSwipeRight = e.translationX > 0;
-
       // direction 1 is right, -1 is left
       direction.value = isSwipeRight ? 1 : -1;
 

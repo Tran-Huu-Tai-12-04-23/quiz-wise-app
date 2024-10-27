@@ -1,3 +1,6 @@
+import { ButtonOutlined, ButtonPrimary } from "@components/Button";
+import Row from "@components/Row";
+import { useBottomSheet } from "@context/bottomSheetContext";
 import { useTheme } from "@context/themContext";
 import { normalize } from "@helper/helpers";
 import { navigate } from "@navigation/NavigationService";
@@ -13,6 +16,7 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 function CustomBottomBar({ state, descriptors, navigation }: any) {
   const { theme } = useTheme();
+  const { openBottomSheet, hideBottomSheet } = useBottomSheet();
 
   const bottomBarRoutes = [
     {
@@ -35,11 +39,12 @@ function CustomBottomBar({ state, descriptors, navigation }: any) {
       isCreate: true,
     },
     {
-      name: BOTTOM_TAB_ROUTE.LIBRARY,
-      key: BOTTOM_TAB_ROUTE.LIBRARY,
+      name: BOTTOM_TAB_ROUTE.LIBRARY_STACK,
+      key: BOTTOM_TAB_ROUTE.LIBRARY_STACK,
       iconDefault: <FolderFavoriteIcon color={theme.icon} />,
       iconActive: <FolderFavoriteIcon color={theme.primary} />,
     },
+
     {
       name: BOTTOM_TAB_ROUTE.PERSONAL,
       key: BOTTOM_TAB_ROUTE.PERSONAL,
@@ -80,7 +85,36 @@ function CustomBottomBar({ state, descriptors, navigation }: any) {
                 }}
               >
                 <TouchableOpacity
-                  onPress={() => navigate(APP_ROUTE.CREATE_QUIZ)}
+                  onPress={() =>
+                    openBottomSheet({
+                      content: (
+                        <Row
+                          direction="column"
+                          style={{ width: "90%" }}
+                          rowGap={10}
+                        >
+                          <ButtonOutlined
+                            iconLeft={<SearchIcon color={theme.primary} />}
+                            minWidth={"100%"}
+                            title="Learning New Words"
+                            onPress={() => {}}
+                          />
+                          <ButtonPrimary
+                            iconLeft={
+                              <FolderFavoriteIcon color={theme.background} />
+                            }
+                            minWidth={"100%"}
+                            title="Create Quiz"
+                            onPress={() => {
+                              navigate(APP_ROUTE.CREATE_QUIZ);
+                              hideBottomSheet();
+                            }}
+                          />
+                        </Row>
+                      ),
+                      snapPoints: [normalize(140)],
+                    })
+                  }
                   style={[
                     styles.tab,
                     {
@@ -107,7 +141,6 @@ function CustomBottomBar({ state, descriptors, navigation }: any) {
               target: state.routes[index]?.key,
               canPreventDefault: true,
             });
-
             if (!isFocused && !event.defaultPrevented) {
               navigation.navigate(route.name);
             }

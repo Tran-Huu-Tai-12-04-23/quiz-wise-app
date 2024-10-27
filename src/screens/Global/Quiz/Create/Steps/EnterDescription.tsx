@@ -21,7 +21,17 @@ const EnterDescription = forwardRef<EnterDescriptionRef, any>((props, ref) => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <Row full start direction="column" style={styles.container}>
+      <Row
+        full
+        start
+        direction="column"
+        style={[
+          styles.container,
+          {
+            backgroundColor: theme.background,
+          },
+        ]}
+      >
         <TextDefault
           bold
           size={normalize(16)}

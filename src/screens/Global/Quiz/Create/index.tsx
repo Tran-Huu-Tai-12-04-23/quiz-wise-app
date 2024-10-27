@@ -4,12 +4,13 @@ import Row from "@components/Row";
 import Separator from "@components/Separator";
 import { useLoading } from "@context/loadingGlobalContext";
 import { useTheme } from "@context/themContext";
+import { useToast } from "@context/toastContext";
 import { normalize } from "@helper/helpers";
 import MainLayout from "@layout/MainLayout";
 import { replace } from "@navigation/NavigationService";
 import { APP_ROUTE } from "@navigation/route";
 import React, { Fragment, useEffect, useRef, useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import PagerView from "react-native-pager-view";
 import useCreateQuiz from "src/services/hooks/quiz/useRemovePodOrder";
 import { styleGlobal } from "src/styles";
@@ -18,7 +19,6 @@ import ChooseSubject, { ChooseSubjectRef } from "./Steps/ChooseSubject";
 import EnterDescription, {
   EnterDescriptionRef,
 } from "./Steps/EnterDescription";
-import Success from "./Steps/Success";
 
 const mapTitle = [
   "Choose your subject",
@@ -27,6 +27,7 @@ const mapTitle = [
   "Success",
 ];
 function CreateQuizScreen() {
+  const { showToast } = useToast();
   const { mutateAsync, data } = useCreateQuiz();
   const { startLoading, stopLoading } = useLoading();
   const { theme } = useTheme();
@@ -49,7 +50,6 @@ function CreateQuizScreen() {
     <ChooseSubject ref={chooseSubjectRef} />,
     <ChooseLevel ref={chooseLevelRef} />,
     <EnterDescription ref={enterDesRef} />,
-    <Success />,
   ];
 
   const handleNextStep = async () => {
@@ -60,7 +60,7 @@ function CreateQuizScreen() {
           setState({ ...state, type: subject });
           setCurrentPage(currentPage + 1);
         } else {
-          Alert.alert("Please choose subject");
+          showToast("Please choose subject", "WARN");
         }
         break;
       }
@@ -70,7 +70,7 @@ function CreateQuizScreen() {
           setState({ ...state, level });
           setCurrentPage(currentPage + 1);
         } else {
-          Alert.alert("Please choose level");
+          showToast("Please choose level", "WARN");
         }
         break;
       }
@@ -83,25 +83,21 @@ function CreateQuizScreen() {
         await mutateAsync(state)
           .then((res) => {
             if (!res) return;
-            Alert.alert("Success", "Create quiz successfully");
             stopLoading();
-            setCurrentPage(currentPage + 1);
+            replace(APP_ROUTE.QUIZ_PLAY, {
+              data: res.data,
+            });
           })
           .catch((e) => {
-            Alert.alert(
+            showToast(
               "Cảnh báo",
+              "ERROR",
               e?.response?.data?.message ??
                 "Đã có lỗi xảy ra vui quáim thử lài sau"
             );
             stopLoading();
           });
 
-        break;
-      }
-      case 3: {
-        replace(APP_ROUTE.QUIZ_PLAY, {
-          data: data,
-        });
         break;
       }
     }
@@ -143,7 +139,7 @@ function CreateQuizScreen() {
           style={{ flex: 1, alignItems: "center" }}
           colGap={normalize(10)}
         >
-          {[1, 2, 3, 4]?.map((_it, index) => {
+          {[1, 2, 3]?.map((_it, index) => {
             return (
               <View
                 key={index}
@@ -161,6 +157,7 @@ function CreateQuizScreen() {
           })}
         </Row>
         <ButtonPrimary
+          minWidth={normalize(100)}
           title={currentPage === pages.length - 1 ? "Play quiz" : "Next"}
           onPress={handleNextStep}
         />
